@@ -44,7 +44,7 @@ export default class Today extends Component {
         const [state, setState] = this.props.useState()
 
         // Error Handling
-        if (state.today.length > 0) return
+        // if (state.today.length > 0) return
 
         // Initialize
         const { history: tracks } = state
@@ -77,6 +77,10 @@ export default class Today extends Component {
                 newTrack.url = track.url
                 todaysTracks.push(newTrack)
 
+                // Add Duration Incase Libray Has Track
+                const libraryTrack = state.library.find(l => track.name.toLowerCase() == l.name.toLowerCase())
+                if (libraryTrack) newTrack.duration_ms = libraryTrack.duration_ms
+
                 // Increment Counter
                 uniqueTracks++
             }
@@ -91,11 +95,18 @@ export default class Today extends Component {
         // Allowing For Custom Sorting Later On
         const sorted = sortAlg(todaysTracks).slice(0, limit)
 
+        // Filter Out Existing Tracks In Library
+        const library = state.library
+        const newOnes = sorted.map(s => library.find(l => l.name.toLowerCase() == s.name.toLowerCase()) ? null : s)
+        const makeCallsFor = newOnes.filter(e => e != null)
+        console.log("newOnes", newOnes)
+        console.log("makeCallsFor", makeCallsFor)
+
         // Get Spotify Track For Duration
-        for (let index in sorted) {
-            const track = todaysTracks[index]
+        for (let index in makeCallsFor) {
+            const track = makeCallsFor[index]
             const access_token = Cookies.get("spotify_access_token")
-            const url = `${config.api}/v1/name2track?name=${track.name.split(" ").join("%20")}&spotify_access_token=${access_token}`
+            const url = `${config.api}/v1/name2track?name=${track.name.toLowerCase().split(" ").join("%20")}&artist=${track.artist.name.split(" ").join("%20")}&spotify_access_token=${access_token}`
             this.fetchWrapper(url, track, index)
         }
 
@@ -105,7 +116,7 @@ export default class Today extends Component {
     }
 
     //  Auto Update State After Fetch
-    fetchWrapper(url, track, index) {
+    fetchWrapper(url, track, index, refetch = false) {
         return fetch(url)
             .then(res => res.json())
             .then(results => {
@@ -113,6 +124,20 @@ export default class Today extends Component {
 
                 // Error Handling
                 if (!fetchedTrack) return
+                if (fetchedTrack.name.toLowerCase() != track.name.toLowerCase()) {
+                    // Inner Error Handling
+                    if (refetch === true) {
+                        state.today[index].duration_ms = 180000
+                        return
+                    }
+
+                    const access_token = Cookies.get("spotify_access_token")
+                    const _url = `${config.api}/v1/name2track?name=${track.name.split(" ").join("%20")}&spotify_access_token=${access_token}`
+                    // console.table({ query: track.name, got: fetchedTrack.name, new_url: _url })
+                    // console.log("track", track, "fetchedTrack", fetchedTrack)
+                    return this.fetchWrapper(_url, track, index, true)
+                }
+
 
                 // Wait For Track
                 let counter = 0
@@ -126,8 +151,14 @@ export default class Today extends Component {
                 }
                 // Add duration
                 const [state, setState] = this.props.useState()
-                console.log(fetchedTrack)
                 state.today[index].duration_ms = fetchedTrack.duration_ms
+
+                // Add 2 Library
+                // Add 2 Library
+                const library = state.library
+                const libraryHasTrack = library.find(e => fetchedTrack.name.toLowerCase() == e.name.toLowerCase())
+                if (!libraryHasTrack || libraryHasTrack == "undefined") library.push({ id: fetchedTrack.id, name: track.name, artist: fetchedTrack.artists[0].name, image: track.image, url: fetchedTrack.external_urls.spotify, duration_ms: fetchedTrack.duration_ms })
+
 
                 // Update State
                 setState({ ...state })

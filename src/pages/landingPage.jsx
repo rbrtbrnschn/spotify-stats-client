@@ -17,9 +17,8 @@ export default class LandingPage extends Component {
         this.handleBigHeroClick = this.handleBigHeroClick.bind(this)
     }
     componentDidMount() {
-
         // Cached LocalState
-        const cachedLocalState = JSON.parse(localStorage.getItem("localState"))
+        const cachedLocalState = JSON.parse(localStorage.getItem("localState")) || { fetched: 0 }
         const { fetched } = cachedLocalState
         const isUp2Date = new Date(fetched).getHours() == new Date().getHours() && Math.abs(new Date(fetched).getMinutes() - new Date().getMinutes()) < config.cacheUp2DateForMin
 
@@ -81,7 +80,9 @@ export default class LandingPage extends Component {
             */
             setTimeout(() => {
                 // Set LocalState
-                setState({ history: history.recenttracks.track, topTracks: [], today: [], placeholder: [], fetched: Date.now() })
+                const cachedLocalState = JSON.parse(localStorage.getItem("localState"))
+                const library = cachedLocalState !== null ? cachedLocalState.library : []
+                setState({ history: history.recenttracks.track, topTracks: [], today: [], placeholder: [], library: library, fetched: Date.now() })
 
                 // Change To History Page
                 this.props.changeDisplay("history")
