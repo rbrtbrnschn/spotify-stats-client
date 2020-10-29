@@ -6,8 +6,9 @@ export default class HistoryTracks extends Component {
         const [localState, setLocalState] = this.props.useState()
         const { history: tracks } = localState
         return (
-            <div>
+            <div className="has-text-centered mb-5">
                 {tracks.map((e, i) => <TrackHistory track={e} index={i++} key={"history-" + i} />)}
+
 
             </div>
         )

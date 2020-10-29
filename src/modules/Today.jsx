@@ -106,7 +106,7 @@ export default class Today extends Component {
         for (let index in makeCallsFor) {
             const track = makeCallsFor[index]
             const access_token = Cookies.get("spotify_access_token")
-            const url = `${config.api}/v1/name2track?name=${track.name.toLowerCase().split(" ").join("%20")}&artist=${track.artist.name.split(" ").join("%20")}&spotify_access_token=${access_token}`
+            const url = `${config.api}/v1/track?name=${track.name.toLowerCase().split(" ").join("%20")}&artist=${track.artist.name.split(" ").join("%20")}&spotify_access_token=${access_token}`
             this.fetchWrapper(url, track, index)
         }
 

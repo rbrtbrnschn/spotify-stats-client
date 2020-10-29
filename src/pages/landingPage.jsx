@@ -95,7 +95,7 @@ export default class LandingPage extends Component {
         // No Error Handling
 
         // Url
-        const base = "http://localhost:3000/v1/2history"
+        const base = "http://localhost:3000/v1/history"
         const user = localStorage.getItem("lastfm_username")
         const access_token = Cookies.get("spotify_access_token")
         const url = `${base}?spotify_access_token=${access_token}&user=${user}`
