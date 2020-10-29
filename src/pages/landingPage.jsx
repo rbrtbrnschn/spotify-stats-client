@@ -7,6 +7,7 @@ import config from "../config"
 import Cookies from "js-cookie"
 import Notification from "../modules/notification"
 
+
 export default class LandingPage extends Component {
     constructor(props) {
         super(props)
@@ -95,11 +96,11 @@ export default class LandingPage extends Component {
         // No Error Handling
 
         // Url
-        const base = "http://localhost:3000/v1/history"
+        const base = `${config.api}/v1/history`
         const user = localStorage.getItem("lastfm_username")
         const access_token = Cookies.get("spotify_access_token")
         const url = `${base}?spotify_access_token=${access_token}&user=${user}`
-        console.log(url)
+
         // Fetch
         return fetch(url)
             .then(res => res.json())
@@ -116,11 +117,7 @@ export default class LandingPage extends Component {
     }
 
     handleLogin() {
-        // Spotify oAuth
-        const redirect_uri = "http://localhost:3000/auth/callback"
-        var scopes = "ugc-image-upload playlist-modify-public playlist-read-private playlist-modify-private playlist-read-collaborative app-remote-control streaming user-read-playback-position user-read-currently-playing user-modify-playback-state user-library-read user-library-modify user-read-private user-read-email"
-        const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(redirect_uri)}`
-        window.location.href = url
+        window.location.href = `${config.api}/auth`
     }
 
     render() {

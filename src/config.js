@@ -1,5 +1,6 @@
+const isProduction = false
 module.exports = {
-    domain:"http://localhost:3001",
-    api: "http://localhost:3000",
+    domain:!isProduction ? "http://localhost:8080" : "https://statify.rbrtbrnschn.dev",
+    api: !isProduction ? "http://localhost:8081/api" : "https://statify.rbrtbrnschn.dev/api",
     cacheUp2DateForMin:0
 }
