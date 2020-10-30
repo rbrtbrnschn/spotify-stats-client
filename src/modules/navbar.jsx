@@ -8,7 +8,7 @@ export default class Navbar extends Component {
             <nav className="navbar" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
                     <a className="navbar-item" href={config.domain}>
-                        <img src="http://localhost:8081/images/logo_blue_shadow_big.png" alt={"statify"} />
+                        <img src="http://localhost:8081/api/images/logo_blue_shadow_big.png" alt={"statify"} />
                     </a>
 
                     {/* eslint-disable-next-line */}
