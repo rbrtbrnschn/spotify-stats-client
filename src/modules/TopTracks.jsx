@@ -8,7 +8,9 @@ export default class TopTracks extends Component {
         this.gatherTopTracks = this.gatherTopTracks.bind(this)
     }
     componentDidMount() {
-        this.gatherTopTracks()
+        const sortAlg = this.props.sortAlg || function (arr) { return arr.sort((a, b) => b.times_played - a.times_played) }
+        const limit = this.props.limit || 10
+        this.gatherTopTracks({ limit: limit, sortAlg: sortAlg })
 
     }
 

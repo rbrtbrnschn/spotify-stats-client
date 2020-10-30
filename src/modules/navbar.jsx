@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
-
+import Cookies from "js-cookie"
+import config from "../config"
 export default class Navbar extends Component {
     render() {
+        console.log("cookie:", Cookies.get("spotify_access_token"))
         return (
             <nav className="navbar" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
-                    <a className="navbar-item" href="https://bulma.io">
-                        <img src="https://bulma.io/images/bulma-logo.png" alt={"bulma"} width="112" height="28" />
+                    <a className="navbar-item" href={config.domain}>
+                        <img src="http://localhost:8081/images/logo_blue_shadow_big.png" alt={"statify"} />
                     </a>
 
                     {/* eslint-disable-next-line */}
-                    <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onClick={() => {
+                        document.querySelector('.navbar-menu').classList.toggle('is-active');
+                    }}>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
@@ -26,8 +30,8 @@ export default class Navbar extends Component {
                         <a className="navbar-item" href="/profile">
                             Profile
       </a>
-                        <a className="navbar-item" href="/login">
-                            Login
+                        <a className="navbar-item" href="/docs">
+                            Docs
                         </a>
 
 
@@ -36,12 +40,12 @@ export default class Navbar extends Component {
                     <div className="navbar-end">
                         <div className="navbar-item">
                             <div className="buttons">
-                                <a className="button is-primary" href="/login">
-                                    <strong>Sign up</strong>
-                                </a>
-                                <a className="button is-light" href="/login">
-                                    Log in
-          </a>
+                                {
+                                    Cookies.get("spotify_access_token") === undefined ? <a className="button is-primary" href={`${config.api}/auth`}>
+                                        <strong>Log in</strong>
+                                    </a> : ""
+                                }
+
                             </div>
                         </div>
                     </div>
