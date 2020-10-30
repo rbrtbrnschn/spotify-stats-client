@@ -42,7 +42,7 @@ export default class TopTracks extends Component {
                 newTrack.artist.name = track.artist["#text"]
                 newTrack.times_played = 1
                 newTrack.duration_ms = 0
-                newTrack.last_played = track.date !== undefined ? new Date(track.date["#text"]).toLocaleDateString() : "Currently playing..."
+                newTrack.last_played = track.date !== undefined ? new Date(`${track.date["#text"]} UTC`).toLocaleString() : "Currently playing..."
                 newTrack.image = track.image[1]["#text"]
                 newTrack.url = track.url
                 topTracks.push(newTrack)

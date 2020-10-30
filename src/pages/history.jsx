@@ -35,10 +35,10 @@ export default class History extends Component {
 
     render() {
         const tabs = [
-            { name: "history", onClick: () => this.changeDisplay("history") },
-            { name: "today", onClick: () => this.changeDisplay("today") },
-            { name: "top10", onClick: () => this.changeDisplay("toptracks") },
-            { name: "top playtime", onClick: () => this.changeDisplay("topPlaytime") }
+            { name: "History", onClick: () => this.changeDisplay("history") },
+            { name: "Today", onClick: () => this.changeDisplay("today") },
+            { name: "Top 10", onClick: () => this.changeDisplay("toptracks") },
+            { name: "Top Playtime", onClick: () => this.changeDisplay("topPlaytime") }
         ]
         return (
             <div className="container is-fullwidth">

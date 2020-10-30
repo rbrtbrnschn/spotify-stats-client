@@ -3,7 +3,6 @@ import Cookies from "js-cookie"
 import config from "../config"
 export default class Navbar extends Component {
     render() {
-        console.log("cookie:", Cookies.get("spotify_access_token"))
         return (
             <nav className="navbar" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
