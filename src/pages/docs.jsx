@@ -13,9 +13,13 @@ export default class Docs extends Component {
                             <div className="subtitle">A Spotify-Last.fm Wrapper<br /><br />
                                 1. First, login with spotify.<br />
                                 2. Then go to <strong>/profile</strong> and link your <em>Last.fm</em> username.<br />
-                                <br />
+                                3. If you don't have a <a href="https://www.last.fm"><strong>Last.fm</strong></a> account, be sure to create one and link your spotify account there.<br />
+                                <br/>
                                 You are all set and done.<br />
                                 Click <strong>Home</strong> and get your <em>complete</em> Spotify history.
+
+                                <br/>
+                                <div className="button is-info mt-5"><a href="https://www.last.fm/about/trackmymusic#spotify">Link Last.fm Account</a></div>
 
                             </div>
 

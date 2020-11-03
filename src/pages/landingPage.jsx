@@ -14,8 +14,8 @@ export default class LandingPage extends Component {
 
         // Take This Up A Notch
         const progressBar = <ProgressBar />
-        this.state = { hero: { message: "Get History" }, progressBar: { isShowing: false, component: progressBar }, notification: { isShowing: false, message: "" } }
         this.handleBigHeroClick = this.handleBigHeroClick.bind(this)
+        this.state = { hero: { message: "Get History", onClick:this.handleBigHeroClick }, progressBar: { isShowing: false, component: progressBar }, notification: { isShowing: false, message: "" } }
     }
     componentDidMount() {
         // Cached LocalState
@@ -37,10 +37,10 @@ export default class LandingPage extends Component {
         }
 
         if (!isAuth()) {
-            return this.setState({ ...this.state, notification: { isShowing: true, message: "Please login with spotify first.", onClick: this.handleLogin } })
+            return this.setState({ ...this.state, notification: { isShowing: true, message: "Click here to login with spotify.", onClick: this.handleLogin } })
         }
         if (!hasSavedUsername()) {
-            return this.setState({ ... this.state, notification: { isShowing: true, message: "Please set your last.fm username.", onClick: () => this.goTo("profile") } })
+            return this.setState({ ... this.state, notification: { isShowing: true, message: "Click here to set your last.fm username.", onClick: () => this.goTo("profile") } })
         }
     }
 
@@ -51,13 +51,27 @@ export default class LandingPage extends Component {
         if (!hasSavedUsername()) return this.goTo("profile")
 
         // Update Message
-        const newState = { ...this.state, hero: { message: "This may take a while." }, progressBar: { isShowing: true, component: <ProgressBar value={""} /> } }
+        const newState = { ...this.state, hero: { message: "This may take a while.", onClick:()=>null }, progressBar: { isShowing: true, component: <ProgressBar value={""} /> } }
         this.setState(newState)
+
+        // Cycle through messages
+        let counter = 0
+        const timer = setInterval(()=>{
+            // All Messages
+            let messages = ["If this takes longer than 1 minute, please refresh.","Last.fm is being terribly slow again. We appologize."]
+            let message = messages[counter] || newState.hero.message
+            
+            // Update State Accordingly
+            const _newState = {...newState, hero:{message: message}}
+            this.setState(_newState)
+            counter++
+        },5000)
 
         // Callback On Get History
         // eslint-disable-next-line
         const [state, setState] = this.props.useState()
         const history = await this.getHistory()
+        clearInterval(timer)
 
         // If Error Occurred
         if (history.hasErrored) {

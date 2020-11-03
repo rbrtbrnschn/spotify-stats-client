@@ -57,7 +57,7 @@ export default class Profile extends Component {
         localStorage.setItem("lastfm_username", this.state.lastfm_username)
 
         // Update State
-        const newState = { ...this.state, saved: true, notification: { ...this.state.notification, isShowing: true, message: "Saved username." } }
+        const newState = { ...this.state, saved: true, notification: { ...this.state.notification, isShowing: true, message: "Saved username.", color:"is-success" } }
         this.setState(newState)
 
         // Clean Up Notification

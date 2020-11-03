@@ -13,15 +13,24 @@ export default class TrackTop10 extends Component {
     }
     render() {
         const { track, index } = this.props
-        const modalHead = <div>
-            <div className="title">{track.name}</div>
-            <div className="subtitle">By {track.artist.name}</div>
-        </div>
+        const modalHead = <React.Fragment>
+            <p className="modal-card-title">
+                <span className="title">
+                {track.name}
+                </span>
+                <br/>
+                <span className="subtitle">
+                By {track.artist.name}
+                </span>
+                </p>
+            <button className="delete" aria-label="close" onClick={this.handleClick}></button>
+        </React.Fragment>
         const modalBody = <div>
 
             <div className="title">Play Time</div>
             <div className="subtitle">
                 <div className="tag is-medium is-primary">{track.times_played * track.duration_ms}ms</div><br />
+                <div className="tag is-medium is-link">{Math.floor(track.times_played * track.duration_ms / 1000)}sec<br /></div><br />
                 <div className="tag is-medium is-link">{Math.floor(track.times_played * track.duration_ms / 60000)}min<br /></div><br />
                 <div className="tag is-medium is-link">{Math.floor(track.times_played * track.duration_ms / 60000 / 60)}h<br /></div><br />
                 <div className="tag is-medium is-success">{Math.floor(track.times_played * track.duration_ms / 60000 / 60 / 24)}d</div><br />

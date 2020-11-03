@@ -16,7 +16,7 @@ export default class History extends Component {
         // State
         this.displays = {
             "history": () => <HistoryTracks {...props} useState={this.props.useState} />,
-            "toptracks": () => <TopTracks {...props} useState={this.props.useState} />,
+            "topPlaycount": () => <TopTracks {...props} useState={this.props.useState} />,
             "today": () => <Today {...props} useState={this.props.useState} />,
             "topPlaytime": () => <Proxy display={<TopPlaytime {...props} sortAlg={(arr) => arr.sort((a, b) => (b.times_played * b.duration_ms) - (a.times_played * a.duration_ms))} useState={this.props.useState} />} />
         }
@@ -37,8 +37,8 @@ export default class History extends Component {
         const tabs = [
             { name: "History", onClick: () => this.changeDisplay("history") },
             { name: "Today", onClick: () => this.changeDisplay("today") },
-            { name: "Top 10", onClick: () => this.changeDisplay("toptracks") },
-            { name: "Top Playtime", onClick: () => this.changeDisplay("topPlaytime") }
+            { name: "Playcount", onClick: () => this.changeDisplay("topPlaycount") },
+            { name: "Playtime", onClick: () => this.changeDisplay("topPlaytime") }
         ]
         return (
             <div className="container is-fullwidth">
